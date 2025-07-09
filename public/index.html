@@ -1,6 +1,286 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>game</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="./js/bootstrap.js"></script>
+         <style>
+        /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
+        /* 盤面 */
+        .board {
+            border-collapse: collapse;
+            border-width: 1px;
+            margin-top: 10rem;
+            padding: 3rem;
+            /*border-color: black;*/
+            background: #0ab535;
+        }
+
+        /* マス */
+        .cell {
+            /*background: #0ab535;*/
+            color: black;
+            border-collapse: collapse;
+            border-width: 10px;
+            border-color: black;
+            /* height: 50px;*/
+        }
+
+        .board td {
+            /* background: #0ab535;*/
+            color: black;
+            border-collapse: collapse;
+            border-width: 1px;
+            border-color: black;
+        }
+
+        /* プレーヤー */
+        .player {
+            color: white;
+        }
+
+        /* 駒 */
+        .koma {
+            background: red;
+        }
+
+        /* 回転ボタン */
+        .turnButton {
+            background: orange;
+        }
+
+        /* ユーザーの名前 */
+        .name {
+            color: black;
+        }
+
+        .header {
+            position: sticky;
+        }
+    </style>
+  </head>
+  
+    <body>
+    <!-- ゲーム名とかメニュー描く -->
+    <header>
+        <!-- navbar-light でヘッダーの文字色を指定 -->
+        <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
+                <a class="navbar-brand" href="#">
+                    <span class="gameName">コネクトフォー</span>
+                </a>
+                <!--このbuttonクラスでハンバーガーメニューを作る-->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu"
+                    aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
+                <div class="collapse navbar-collapse" id="navbarmenu">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">ルール説明</a>
+                        </li>
+                        <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                設定
+                            </a>
+                            <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
+                            <ul class="dropdown-menu border-0">
+                                <li><a class="dropdown-item" href="#">名前変更</a></li>
+                                <li><a class="dropdown-item" href="#">背景変更</a></li>
+                                <li><a class="dropdown-item" href="#">石デザイン変更</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span style="color: red">退出</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 盤面6x6 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-lg-8">
+                <div class="board m-5">
+                    <div class="player-names text-center">
+                        <p>
+                            <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span>
+                        </p>
+                    </div>
+                   
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border  ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- チャットなど。間に合わなければ削除 -->
+            <div class="col-sm-12 col-md-2 col-lg-4">
+                <div class="card m-5 text-center">
+                    <div class="card-head">行動履歴</div>
+                    <div class="card-body">ここに文字を表示</div>
+                </div>
+                <div class="card m-5 text-center">
+                    <div class="card-head">チャット</div>
+                    <div class="card-body">ここに文字を表示</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      function boardAction(){//ボードの列選択
+
+      }
+      function turnbuttonAction(){//回転処理
+　　　　//あとで実装しよう
+      }
+      function u(){//行動可否を定義
+
+      }
+      
+      function main() {
+      }
+
+
+      main()
+    </script>
+  </body>
+</html>
+
+<!--
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat App</title>
@@ -204,3 +484,4 @@
   </body>
 </html>
 
+-->

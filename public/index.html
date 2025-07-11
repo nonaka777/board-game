@@ -7,257 +7,369 @@
   <title>game</title>
   <link rel="stylesheet" href="./css/bootstrap.css">
   <script src="./js/bootstrap.js"></script>
-  <style>
-    /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
-    /* 盤面 */
-    .board {
-      border-collapse: collapse;
-      border-width: 1px;
-      margin-top: 10rem;
-      padding: 3rem;
-      /*border-color: black;*/
-      background: #0ab535;
-    }
+      <style>
+        /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
+        /* 盤面 */
+        .board {
+            border-collapse: collapse;
+            border-width: 1px;
+            margin-top: 10rem;
+            padding: 3rem;
+            /*border-color: black;*/
+            background: #0ab535;
+        }
 
-    /* マス */
-    .cell {
-      /*background: #0ab535;*/
-      color: black;
-      border-collapse: collapse;
-      border-width: 10px;
-      border-color: black;
-      /* height: 50px;*/
-    }
+        /* マス */
+        .cell {
+            /*background: #0ab535;*/
+            color: black;
+            border-collapse: collapse;
+            border-width: 10px;
+            border-color: black;
+            /* height: 50px;*/
+        }
 
-    .board td {
-      /* background: #0ab535;*/
-      color: black;
-      border-collapse: collapse;
-      border-width: 1px;
-      border-color: black;
-    }
+        /* 列選択ボタン */
+        .col-btn{
+            color: white;
+        }
 
-    /* プレーヤー */
-    .player {
-      color: white;
-    }
+        /* 列選択ボタンの色 */
+        .col-btn button{
+            background-color: rgba(126, 184, 255, 0.804);
+            border-color: antiquewhite;
+        }
 
-    /* 駒 */
-    .koma {
-      background: red;
-    }
+        .board td {
+            /* background: #0ab535;*/
+            color: black;
+            border-collapse: collapse;
+            border-width: 1px;
+            border-color: black;
+        }
 
-    /* 回転ボタン */
-    .turnButton {
-      background: orange;
-    }
+        /* プレーヤー */
+        .player {
+            color: white;
+        }
 
-    /* ユーザーの名前 */
-    .name {
-      color: black;
-    }
+        /* 駒 */
+        .koma {
+            background: red;
+            border-radius: 50%;
+        }
 
-    .header {
-      position: sticky;
-    }
-  </style>
+        /* 回転ボタン */
+        .turnButton {
+            background: orange;
+        }
+
+        /* ユーザーの名前 */
+        .name {
+            color: black;
+        }
+
+        .header {
+            position: sticky;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- ゲーム名とかメニュー描く -->
-  <header>
-    <!-- navbar-light でヘッダーの文字色を指定 -->
-    <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
-        <a class="navbar-brand" href="#">
-          <span class="gameName">コネクトフォー</span>
-        </a>
-        <!--このbuttonクラスでハンバーガーメニューを作る-->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu"
-          aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
-        <div class="collapse navbar-collapse" id="navbarmenu">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#">ルール説明</a>
-            </li>
-            <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                設定
-              </a>
-              <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
-              <ul class="dropdown-menu border-0">
-                <li><a class="dropdown-item" href="#">名前変更</a></li>
-                <li><a class="dropdown-item" href="#">背景変更</a></li>
-                <li><a class="dropdown-item" href="#">石デザイン変更</a></li>
-              </ul>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><span style="color: red">退出</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+    <!-- ゲーム名とかメニュー描く -->
+    <header>
+        <!-- navbar-light でヘッダーの文字色を指定 -->
+        <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
+                <a class="navbar-brand" href="#">
+                    <span class="gameName">コネクトフォー</span>
+                </a>
+                <!--このbuttonクラスでハンバーガーメニューを作る-->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu"
+                    aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
+                <div class="collapse navbar-collapse" id="navbarmenu">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">ルール説明</a>
+                            <!-- モーダル -->
+                            <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">ルール説明</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-  <!-- 盤面6x6 -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 col-md-10 col-lg-8">
-        <div class="board m-5">
-          <div class="player-names text-center">
-            <p>
-              <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span>
-            </p>
-          </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>ルール説明を書きます。</p>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">閉じる</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                設定
+                            </a>
+                            <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
+                            <ul class="dropdown-menu border-0">
+                                <li><a class="dropdown-item" href="#">名前変更</a></li>
+                                <li><a class="dropdown-item" href="#">背景変更</a></li>
+                                <li><a class="dropdown-item" href="#">石デザイン変更</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><span style="color: red">退出</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col cell border ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
+    <!-- 盤面6x6 -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-lg-8">
+                <div class="board m-5">
+                    <div class="player-names text-center">
+                        <p>
+                            <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span>
+                        </p>
+                    </div>
+                    <!--
+                    <table>
+                        <caption>game board test</caption>
+                        <thead>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1-1</td>
+                                <td>1-2</td>
+                                <td>1-3</td>
+                                <td>1-4</td>
+                                <td>1-5</td>
+                                <td>1-6</td>
+                            </tr>
+                            <tr>
+                                <td>2-1</td>
+                                <td>2-2</td>
+                                <td>2-3</td>
+                                <td>2-4</td>
+                                <td>2-5</td>
+                                <td>2-6</td>
+                            </tr>
+                            <tr>
+                                <td>3-1</td>
+                                <td>3-2</td>
+                                <td>3-3</td>
+                                <td>3-4</td>
+                                <td>3-5</td>
+                                <td>3-6</td>
+                            </tr>
+                            <tr>
+                                <td>4-1</td>
+                                <td>4-2</td>
+                                <td>4-3</td>
+                                <td>4-4</td>
+                                <td>4-5</td>
+                                <td>4-6</td>
+                            </tr>
+                            <tr>
+                                <td>5-1</td>
+                                <td>5-2</td>
+                                <td>5-3</td>
+                                <td>5-4</td>
+                                <td>5-5</td>
+                                <td>5-6</td>
+                            </tr>
+                            <tr>
+                                <td>6-1</td>
+                                <td>6-2</td>
+                                <td>6-3</td>
+                                <td>6-4</td>
+                                <td>6-5</td>
+                                <td>6-6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border  ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>1</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>2</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>3</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>4</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>5</div>
+                            </div>
+                            <div class="col cell border ratio ratio-1x1">
+                                <div>6</div>
+                            </div>
+                        </div>
+                        <div class="row border-0 col-btn text-center mt-1">
+                            <button id="col1-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                            <button id="col2-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                            <button id="col3-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                            <button id="col4-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                            <button id="col5-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                            <button id="col6-btn" class="col">
+                                <div>&#9651;</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-              <div class="col cell border  ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
+            <!-- チャットなど。間に合わなければ削除 -->
+            <div class="col-sm-12 col-md-2 col-lg-4">
+                <div class="card m-5 text-center">
+                    <div class="card-head">行動履歴</div>
+                    <div class="card-body">ここに文字を表示</div>
+                </div>
+                <div class="card m-5 text-center">
+                    <div class="card-head">チャット</div>
+                    <div class="card-body">ここに文字を表示</div>
+                </div>
             </div>
-            <div class="row">
-              <div class="col cell border ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col cell border ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col cell border ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col cell border ratio ratio-1x1">
-                <div>1</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>2</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>3</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>4</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>5</div>
-              </div>
-              <div class="col cell border ratio ratio-1x1">
-                <div>6</div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- チャットなど。間に合わなければ削除 -->
-      <div class="col-sm-12 col-md-2 col-lg-4">
-        <div class="card m-5 text-center">
-          <div class="card-head">行動履歴</div>
-          <div class="card-body">ここに文字を表示</div>
-        </div>
-        <div class="card m-5 text-center">
-          <div class="card-head">チャット</div>
-          <div class="card-body">ここに文字を表示</div>
-        </div>
-      </div>
     </div>
-  </div>
   <script>
     function boardAction() {//ボードの列選択
 

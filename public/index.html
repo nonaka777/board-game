@@ -72,6 +72,13 @@
         .header {
             position: sticky;
         }
+
+        #restart-btn{
+            background-color: aqua;
+            margin-left: auto;
+            /*display: flex;
+            justify-content: flex-end;*/
+        }
     </style>
 </head>
 
@@ -145,7 +152,7 @@
                 <div class="board m-5">
                     <div class="player-names text-center">
                         <p>
-                            <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span>
+                            <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span><button type="button" id="restart-btn" class="d-flex justify-content-between align-self-center">リスタート</button>
                         </p>
                     </div>
                     <div class="container-fluid">

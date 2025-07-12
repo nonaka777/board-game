@@ -331,7 +331,9 @@
     </div>
   </div>
   <script>
-    function main() {
+       function main() {
+
+      const statusMessage = document.getElementById('status-message')
 
       const ws = new WebSocket('ws://' + location.host + '/ws')
       let myId, myColor
@@ -455,7 +457,7 @@
           countSameColor(1, 1) >= 4 ||      // 斜め（右下）
           countSameColor(-1, 1) >= 4        // 斜め（左下）
         ) {
-          alert(`${stone} サイドの勝利`);
+          //alert(`${stone} サイドの勝利`);
           for (let i = 0; i < cols; i++) {//列選択ボタン停止
             colbtn[i].disabled = true;
           }
@@ -479,15 +481,25 @@
 
       drawBoard();
 
+      //通信機能
+
       let myTurn = false; // 自分のターンかどうか（初期はfalse）
 
       ws.onmessage = (event) => {//受信
         const msg = JSON.parse(event.data)
 
+         if (msg.type === 'full') {
+    statusMessage.textContent = "満員です。観戦またはリロードしてください。"
+    return
+  }
+
         if (msg.type === 'init') {//初期設定
           myId = msg.id
           myColor = msg.color
           myTurn = msg.turn === myId
+
+          statusMessage.textContent = ""
+
           updateTurn()
         }
 
@@ -500,12 +512,14 @@
         }
 
         if (msg.type === 'reset') {//相手がリスタートボタンおした
+
+          statusMessage.textContent = "ゲームがリスタートされました"
           restartGame()
         }
       }
 
     }
-    main()
+    main();
   </script>
 </body>
 

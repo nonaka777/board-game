@@ -7,326 +7,504 @@
   <title>game</title>
   <link rel="stylesheet" href="./css/bootstrap.css">
   <script src="./js/bootstrap.js"></script>
-      <style>
-        /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
-        /* 盤面 */
-        .board {
-            border-collapse: collapse;
-            border-width: 1px;
-            margin-top: 10rem;
-            padding: 3rem;
-            /*border-color: black;*/
-            background: #0ab535;
-        }
+  <style>
+    /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
+    /* 盤面 */
+    .board {
+      border-collapse: collapse;
+      border-width: 1px;
+      margin-top: 10rem;
+      padding: 3rem;
+      /*border-color: black;*/
+      background: #0ab535;
+    }
 
-        /* マス */
-        .cell {
-            /*background: #0ab535;*/
-            color: black;
-            border-collapse: collapse;
-            border-width: 10px;
-            border-color: black;
-            /* height: 50px;*/
-        }
+    /* マス */
+    .cell {
+      /*background: #0ab535;*/
+      color: black;
+      border-collapse: collapse;
+      border-width: 10px;
+      border-color: black;
+      /* height: 50px;*/
+    }
 
-        /* 列選択ボタン */
-        .col-btn{
-            color: white;
-        }
+    /* 列選択ボタン */
+    .col-btn {
+      color: white;
+    }
 
-        /* 列選択ボタンの色 */
-        .col-btn button{
-            background-color: rgba(126, 184, 255, 0.804);
-            border-color: antiquewhite;
-        }
+    /* 列選択ボタンの色 */
+    .col-btn button {
+      background-color: rgba(126, 184, 255, 0.804);
+      border-color: antiquewhite;
+    }
 
-        .board td {
-            /* background: #0ab535;*/
-            color: black;
-            border-collapse: collapse;
-            border-width: 1px;
-            border-color: black;
-        }
+    .board td {
+      /* background: #0ab535;*/
+      color: black;
+      border-collapse: collapse;
+      border-width: 1px;
+      border-color: black;
+    }
 
-        /* プレーヤー */
-        .player {
-            color: white;
-        }
+    /* プレーヤー */
+    .player {
+      color: white;
+    }
 
-        /* 駒 */
-        .koma {
-            background: red;
-            border-radius: 50%;
-        }
+    /* 駒 */
+    .koma {
+      background: red;
+      border-radius: 50%;
+    }
 
-        /* 回転ボタン */
-        .turnButton {
-            background: orange;
-        }
+    /* 回転ボタン */
+    .turnButton {
+      background: orange;
+    }
 
-        /* ユーザーの名前 */
-        .name {
-            color: black;
-        }
+    /* ユーザーの名前 */
+    .name {
+      color: black;
+    }
 
-        .header {
-            position: sticky;
-        }
+    .header {
+      position: sticky;
+    }
 
-        #restart-btn{
-            background-color: aqua;
-            margin-left: auto;
-            /*display: flex;
+    #restart-btn {
+      background-color: aqua;
+      margin-left: auto;
+      /*display: flex;
             justify-content: flex-end;*/
-        }
-    </style>
+    }
+
+    .stone {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .stone.red {
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .stone.blue {
+      background-color: blue;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- ゲーム名とかメニュー描く -->
-    <header>
-        <!-- navbar-light でヘッダーの文字色を指定 -->
-        <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
-                <a class="navbar-brand" href="#">
-                    <span class="gameName">コネクトフォー</span>
-                </a>
-                <!--このbuttonクラスでハンバーガーメニューを作る-->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu"
-                    aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
-                <div class="collapse navbar-collapse" id="navbarmenu">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">ルール説明</a>
-                            <!-- モーダル -->
-                            <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">ルール説明</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- ゲーム名とかメニュー描く -->
+  <header>
+    <!-- navbar-light でヘッダーの文字色を指定 -->
+    <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
+        <a class="navbar-brand" href="#">
+          <span class="gameName">コネクトフォー</span>
+        </a>
+        <!--このbuttonクラスでハンバーガーメニューを作る-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu"
+          aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
+        <div class="collapse navbar-collapse" id="navbarmenu">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">ルール説明</a>
+              <!-- モーダル -->
+              <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">ルール説明</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>ルール説明を書きます。</p>
-                                        </div>
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">閉じる</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                設定
-                            </a>
-                            <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
-                            <ul class="dropdown-menu border-0">
-                                <li><a class="dropdown-item" href="#">名前変更</a></li>
-                                <li><a class="dropdown-item" href="#">背景変更</a></li>
-                                <li><a class="dropdown-item" href="#">石デザイン変更</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><span style="color: red">退出</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- 盤面6x6 -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-md-10 col-lg-8">
-                <div class="board m-5">
-                    <div class="player-names text-center">
-                        <p>
-                            <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span><button type="button" id="restart-btn" class="d-flex justify-content-between align-self-center">リスタート</button>
-                        </p>
                     </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col cell border  ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>1</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>2</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>3</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>4</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>5</div>
-                            </div>
-                            <div class="col cell border ratio ratio-1x1">
-                                <div>6</div>
-                            </div>
-                        </div>
-                        <div class="row border-0 col-btn text-center mt-1">
-                            <button id="col1-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                            <button id="col2-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                            <button id="col3-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                            <button id="col4-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                            <button id="col5-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                            <button id="col6-btn" class="col">
-                                <div>&#9651;</div>
-                            </button>
-                        </div>
+                    <div class="modal-body">
+                      <p>ルール説明を書きます。</p>
                     </div>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">閉じる</button>
+                  </div>
                 </div>
-            </div>
-            <!-- チャットなど。間に合わなければ削除 -->
-            <div class="col-sm-12 col-md-2 col-lg-4">
-                <div class="card m-5 text-center">
-                    <div class="card-head">行動履歴</div>
-                    <div class="card-body">ここに文字を表示</div>
-                </div>
-                <div class="card m-5 text-center">
-                    <div class="card-head">チャット</div>
-                    <div class="card-body">ここに文字を表示</div>
-                </div>
-            </div>
+              </div>
+            </li>
+            <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                設定
+              </a>
+              <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
+              <ul class="dropdown-menu border-0">
+                <li><a class="dropdown-item" href="#">名前変更</a></li>
+                <li><a class="dropdown-item" href="#">背景変更</a></li>
+                <li><a class="dropdown-item" href="#">石デザイン変更</a></li>
+              </ul>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><span style="color: red">退出</span></a>
+            </li>
+          </ul>
         </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 盤面6x6 -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-10 col-lg-8">
+        <div class="board m-5">
+          <div class="player-names text-center">
+            <p>
+              <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span><button type="button" id="restart-btn"
+                class="d-flex justify-content-between align-self-center">リスタート</button>
+            </p>
+          </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col cell border ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col cell border  ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col cell border ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col cell border ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col cell border ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col cell border ratio ratio-1x1">
+                <div>1</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>2</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>3</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>4</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>5</div>
+              </div>
+              <div class="col cell border ratio ratio-1x1">
+                <div>6</div>
+              </div>
+            </div>
+            <div class="row border-0 col-btn text-center mt-1">
+              <button id="col1-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+              <button id="col2-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+              <button id="col3-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+              <button id="col4-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+              <button id="col5-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+              <button id="col6-btn" class="col">
+                <div>&#9651;</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- チャットなど。間に合わなければ削除 -->
+      <div class="col-sm-12 col-md-2 col-lg-4">
+        <div class="card m-5 text-center">
+          <div class="card-head">行動履歴</div>
+          <div class="card-body">ここに文字を表示</div>
+        </div>
+        <div class="card m-5 text-center">
+          <div class="card-head">チャット</div>
+          <div class="card-body">ここに文字を表示</div>
+        </div>
+      </div>
     </div>
+  </div>
   <script>
-    function boardAction() {//ボードの列選択
-
-    }
-    function turnbuttonAction() {//回転処理
-      //あとで実装しよう
-    }
-    function u() {//行動可否を定義
-
-    }
-
     function main() {
+
+      const ws = new WebSocket('ws://' + location.host + '/ws')
+      let myId, myColor
+
+      const rows = 6;
+      const cols = 6;
+      const colbtn = new Array(6);
+      const board = [];
+
+      for (let i = 0; i < cols; i++) {
+        board[i] = []; //空っぽの列
+      }
+
+      const boardContainer = document.querySelector(".board");
+      colbtn[0] = document.getElementById("col1-btn");
+      colbtn[1] = document.getElementById("col2-btn");
+      colbtn[2] = document.getElementById("col3-btn");
+      colbtn[3] = document.getElementById("col4-btn");
+      colbtn[4] = document.getElementById("col5-btn");
+      colbtn[5] = document.getElementById("col6-btn");
+
+      const restart = document.getElementById("restart-btn");
+      restart.addEventListener("click", restartGame);
+
+      let stone = "red";
+
+      // ボタンを作る
+      for (let i = 0; i < cols; i++) {
+        colbtn[i].addEventListener("click", () => dropStone(i));
+      }
+
+      // 空のボードを描画
+      function drawBoard() {
+        const cells = document.querySelectorAll(".cell");
+
+        // まず全セルの色をリセット
+        cells.forEach(cell => cell.classList.remove("red", "blue"));
+
+        // 配列に応じてストーンの色をつける
+        for (let col = 0; col < cols; col++) {
+          for (let row = 0; row < board[col].length; row++) {
+            const color = board[col][row]; // "red" or "yellow"
+            const index = (rows - 1 - row) * cols + col; // 配列 → 表示のマッピング
+            const stone = document.createElement("div");
+            stone.classList.add("stone", color);
+            cells[index].appendChild(stone);
+          }
+        }
+      }
+
+
+      // 石を落とす処理
+      function dropStone(col) {
+        if (board[col].length >= rows) {
+          alert("この列は選択できません");
+          return;
+        }
+        if (!myTurn) {//画面表示
+          alert("相手のターンです");
+          return;
+        }
+        board[col].push(stone); // 石を追加
+        drawBoard(); // 再描画
+        const row = board[col].length - 1;
+        victry(col, row, stone);
+
+
+        // プレイヤー(stone)切り替え
+        if (stone === "red") {
+          stone = "blue";
+        } else {
+          stone = "red";
+        }
+
+        // ボタンを無効にする（列が満杯なら）
+        if (board[col].length === rows) {//下から○○列の1行目、2行目と埋まっていく
+          //○○列の配列の埋まり具合が6行目まできたら
+          colbtn[col].disabled = true;
+        }
+        ws.send(JSON.stringify({ type: 'place', col, id: myId }))//stoneを置いた場所send
+      }
+
+      function victry(col, row, stone) {
+
+        // プレイヤー(stone)切り替え
+
+
+        function countSameColor(goC, goR) {
+
+          let count = 1; // 自分自身をカウント
+          //縦方向（下に3つ+1➡起点から列固定(0)、行を負方向
+          //横方向（左右+1➡起点から行固定(0)、列を正方向＆負方向
+          //斜め1（右上左下+1➡（起点から列、行ともに正方向）+（起点から列、行ともに負）
+          //斜め2（左上右下+1➡（起点から列に負、行に正）+（起点から列に正、行に負）
+          //それぞれstoneが起点と同じならcount++;
+          //並んだ合計がどこかしらで4だったら
+          //画面表示→"redサイドの勝利"
+          // 正
+          let c = col + goC;
+          let r = row + goR;
+          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
+            count++;
+            c += goC;
+            r += goR;
+          }
+
+          // 負
+          c = col - goC;
+          r = row - goR;
+          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
+            count++;
+            c -= goC;
+            r -= goR;
+          }
+
+          return count;
+
+        }
+        if (countSameColor(0, 1) >= 4 ||    // 縦
+          countSameColor(1, 0) >= 4 ||      // 横
+          countSameColor(1, 1) >= 4 ||      // 斜め（右下）
+          countSameColor(-1, 1) >= 4        // 斜め（左下）
+        ) {
+          alert(`${stone} サイドの勝利`);
+          for (let i = 0; i < cols; i++) {//列選択ボタン停止
+            colbtn[i].disabled = true;
+          }
+        }
+      }
+
+      function restartGame() {
+        // ボードの状態を空にする
+        const stones = document.querySelectorAll('.stone'); // すべての石要素を取得
+        stones.forEach(stone => stone.remove());//stone消す（物理
+
+        for (let i = 0; i < cols; i++) {
+          board[i] = [];//stoneをけす（内部
+          colbtn[i].disabled = false; // ボタン有効化
+        }
+
+        //一旦、毎回、赤側からスタート
+        stone = "red";
+      }
+      // 最初の描画
+
+      drawBoard();
+
+      let myTurn = false; // 自分のターンかどうか（初期はfalse）
+
+      ws.onmessage = (event) => {//受信
+        const msg = JSON.parse(event.data)
+
+        if (msg.type === 'init') {//初期設定
+          myId = msg.id
+          myColor = msg.color
+          myTurn = msg.turn === myId
+          updateTurn()
+        }
+
+        if (msg.type === 'update') {//相手の行動
+          board[msg.col].push(msg.color)
+          drawBoard()
+          myTurn = msg.nextTurn === myId
+          updateTurn()
+          if (msg.winner) alert(`${msg.color}の勝ち！`)
+        }
+
+        if (msg.type === 'reset') {//相手がリスタートボタンおした
+          restartGame()
+        }
+      }
+
     }
-
-
     main()
   </script>
 </body>
@@ -336,6 +514,39 @@
 <!--
 <!DOCTYPE html>
 <html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>game</title>
+    <style>
+     
+    </style>
+  </head>
+  <body>
+    
+
+    <script>
+      function boardAction(){//ボードの列選択
+
+      }
+      function turnbuttonAction(){//
+
+      }
+      function u(){//行動可否を定義
+
+      }
+      
+      function main() {
+      }
+
+
+      main()
+    </script>
+  </body>
+</html>
+
+
+<!-- <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -539,5 +750,7 @@
     </script>
   </body>
 </html>
+ -->
 
--->
+<<<<<<< HEAD=======-->
+  >>>>>>> f5ea08737160525798d304ae816e76481473bdd9

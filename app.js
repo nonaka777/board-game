@@ -44,7 +44,7 @@ app.ws('/ws', (ws) => {//定員2
       const row = board[col].length
       board[col].push(players[playerIndex].color)
 
-      const win = checkWin(col, row, players[playerIndex].color)
+      const win =  victry(col, row, players[playerIndex].color)
 
       // 全員に更新を送信
       result({

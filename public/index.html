@@ -553,6 +553,12 @@
           newBoard[col] = newBoard[col].filter(x => x);
         }
         for (let i = 0; i < cols; i++) board[i] = newBoard[i];
+        // すべての石要素を消す
+        const stones = document.querySelectorAll('.stone');
+        stones.forEach(stone => stone.remove());
+
+        // 新しい配置で描画
+        drawBoard();
       }
 
       function restartGame() {

@@ -395,7 +395,7 @@
 
       const restart = document.getElementById("restart-btn");
       restart.addEventListener("click", restartGame);
-      const whoseTurn = document.getElementById('whose-turn');
+      let whoseTurn = document.getElementById('whose-tarn');
 
 
       let stone = "red";
@@ -426,13 +426,13 @@
 
       function updateTurn() {
         if (!gameStarted) {
-          whoseTurn.textContent = "";
+          whose-tarn.textContent = "";
           return;
         }
         if (myTurn) {
-          whoseTurn.textContent = "myId";
+          whose-tarn.textContent == "myId";
         } else {
-          whoseTurn.textContent = "相手";
+          whose-tarn.textContent == "相手";
         }
       }
 
@@ -571,6 +571,7 @@
             for (let i = 0; i < cols; i++) {
               colbtn[i].disabled = true;
             }
+            setTimeout(() => {
             // 勝者・敗者でアラート内容を分ける
             if (msg.winner === myId) {
               statusMessage.textContent = "あなたの勝ちです！";
@@ -579,6 +580,7 @@
               statusMessage.textContent = "あなたの負けです…";
               alert("あなたの負けです…");
             }
+            }, 300); // 300ms待つ
             // 勝利時はターン表示・切り替えを行わない
             return;
           }

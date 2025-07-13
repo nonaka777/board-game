@@ -374,7 +374,7 @@
     </div>
   </div>
   <script>
-    let myId = self.crypto.randomUUID().substr(0, 8);
+    let myId ;
     function main() {
 
       const statusMessage = document.getElementById('status-message')
@@ -595,7 +595,7 @@
         }
 
         if (msg.type === 'init') {//初期設定
-          //myId = msg.id;
+          myId = msg.id;
           myColor = msg.color;
           myTurn = msg.turn === myId;
           gameStarted = true;

@@ -516,6 +516,9 @@
           drawBoard()
           myTurn = msg.nextTurn === myId
           updateTurn()
+          if (msg.message) {
+            statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
+          }
           if (msg.winner) alert(`${msg.color}の勝ち！`)
         }
 

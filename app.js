@@ -76,43 +76,39 @@ if (players.length > 2) {
 })
 
 function victry(col, row, color) {
+  const cols = 6;
+  const rows = 6;
 
-        // プレイヤー(stone)切り替え
+  function countSameColor(goC, goR) {
+    let count = 1;
+    let c = col + goC;
+    let r = row + goR;
+    while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === color) {
+      count++;
+      c += goC;
+      r += goR;
+    }
+    // 負方向
+    c = col - goC;
+    r = row - goR;
+    while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === color) {
+      count++;
+      c -= goC;
+      r -= goR;
+    }
+    return count;
+  }
 
-
-        function countSameColor(goC, goR) {
-
-          let count = 1; // 自分自身をカウント
-          let c = col + goC;
-          let r = row + goR;
-          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
-            count++;
-            c += goC;
-            r += goR;
-          }
-
-          // 負
-          c = col - goC;
-          r = row - goR;
-          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
-            count++;
-            c -= goC;
-            r -= goR;
-          }
-
-          return count;
-
-        }
-        if (countSameColor(0, 1) >= 4 ||    // 縦
-          countSameColor(1, 0) >= 4 ||      // 横
-          countSameColor(1, 1) >= 4 ||      // 斜め（右下）
-          countSameColor(-1, 1) >= 4        // 斜め（左下）
-        ) {
-          alert(color+`サイドの勝利`);
-          return true;
-          }
-          return false;
-        }
+  if (
+    countSameColor(0, 1) >= 4 ||    // 縦
+    countSameColor(1, 0) >= 4 ||    // 横
+    countSameColor(1, 1) >= 4 ||    // 斜め（右下）
+    countSameColor(-1, 1) >= 4      // 斜め（左下）
+  ) {
+    return true;
+  }
+  return false;
+}
       
 
 function result(obj) {

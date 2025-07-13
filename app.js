@@ -97,6 +97,16 @@ if (players.length > 2) {
       players.forEach(p => {
         p.ws.send(JSON.stringify({ type: "reset" }));
       });
+      if (players.length === 2) {
+        players.forEach(p => {
+          p.ws.send(JSON.stringify({
+            type: 'init',
+            id: p.id,
+            color: p.color,
+            turn: players[currentTurn].id
+          }));
+        });
+      }
     }
   })
 

@@ -333,23 +333,24 @@
     </div>
   </div>
   <script>
-    function main() {
+  function main() {
 
       const statusMessage = document.getElementById('status-message')
 
-
-      const host = location.origin.replace(/^http/, 'ws')
-      const ws = new WebSocket(host + '/ws')
-      let myId = self.crypto.randomUUID().substr(0, 8)
-      let myColor
+      const host = location.origin.replace(/^http/, 'ws');
+      const ws = new WebSocket(host + '/ws');
+      let myId = self.crypto.randomUUID().substr(0, 8);
+       let myColor;
 
       const rows = 6;
       const cols = 6;
       const colbtn = new Array(6);
       const board = [];
 
+
       for (let i = 0; i < cols; i++) {
         board[i] = []; //空っぽの列
+        // colbtn[i].disabled = true;
       }
 
       const boardContainer = document.querySelector(".board");
@@ -362,6 +363,8 @@
 
       const restart = document.getElementById("restart-btn");
       restart.addEventListener("click", restartGame);
+      const whoseTurn = document.getElementById('whose-turn');
+
 
       let stone = "red";
 
@@ -389,6 +392,17 @@
         }
       }
 
+        function updateTurn() {
+        if (!gameStarted) {
+          whoseTurn.textContent = "";
+          return;
+        }
+        if (myTurn) {
+          whoseTurn.textContent = "あなたのターンです";
+        } else {
+          whoseTurn.textContent = "相手のターンです";
+        }
+      }
 
       // 石を落とす処理
       function dropStone(col) {
@@ -401,21 +415,22 @@
           return;
         }
         if (!gameStarted) {
-          alert("まだ相手が来ていません")
+          alert("まだ相手が来ていません");
           return;
         }
+
         // board[col].push(stone); // 石を追加
         // drawBoard(); // 再描画
         // const row = board[col].length - 1;
         // victry(col, row, stone);
 
 
-        // プレイヤー(stone)切り替え
-        if (stone === "red") {
-          stone = "blue";
-        } else {
-          stone = "red";
-        }
+        // // プレイヤー(stone)切り替え
+        // if (stone === "red") {
+        //   stone = "blue";
+        // } else {
+        //   stone = "red";
+        // }
 
         // ボタンを無効にする（列が満杯なら）
         if (board[col].length === rows) {//下から○○列の1行目、2行目と埋まっていく
@@ -466,9 +481,10 @@
           countSameColor(1, 1) >= 4 ||      // 斜め（右下）
           countSameColor(-1, 1) >= 4        // 斜め（左下）
         ) {
-          //alert(`${stone} サイドの勝利`);
+          
           for (let i = 0; i < cols; i++) {//列選択ボタン停止
             colbtn[i].disabled = true;
+            alert(`${stone} サイドの勝利`);
           }
         }
       }
@@ -491,15 +507,15 @@
       drawBoard();
 
       //通信機能
-      let gameStarted = false;
+      let gameStarted = false
       let myTurn = false; // 自分のターンかどうか（初期はfalse）
 
       ws.onmessage = (event) => {//受信
-        const msg = JSON.parse(event.data);
+        const msg = JSON.parse(event.data)
 
         if (msg.type === 'full') {
           statusMessage.textContent = "満員です。観戦またはリロードしてください。"
-          return;
+          return
         }
 
         if (msg.type === 'init') {//初期設定
@@ -507,9 +523,12 @@
           myColor = msg.color;
           myTurn = msg.turn === myId;
           gameStarted = true;
+          // for (let i = 0; i < cols; i++) {
+          //           colbtn[i].disabled = false; // ボタン有効化
+          //         }
           statusMessage.textContent = ""
 
-          updateTurn();
+          updateTurn()
         }
 
         if (msg.type === 'update') {//相手の行動

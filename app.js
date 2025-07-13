@@ -25,16 +25,16 @@ app.ws('/ws', (ws) => {//定員2
   console.log(`Player connected: ${playerId} (${color})`)
 
   // プレイヤーに初期情報を送る
-  if (players.length === 2) {
-  players.forEach((p, i) => {
-    p.ws.send(JSON.stringify({
-      type: 'init',
-      id: p.id,
-      color: p.color,
-      turn: players[currentTurn].id
-    }))
-  })
-}
+ if (players.length === 2) {
+    players.forEach(p => {
+      p.ws.send(JSON.stringify({
+        type: 'init',
+        id: p.id,
+        color: p.color,
+        turn: players[currentTurn].id
+      }))
+    })
+  }
   ws.on('message', (msg) => {//受信
     const data = JSON.parse(msg)
 

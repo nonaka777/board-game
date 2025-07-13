@@ -333,7 +333,7 @@
     </div>
   </div>
   <script>
-  function main() {
+   function main() {
 
       const statusMessage = document.getElementById('status-message')
 
@@ -398,9 +398,9 @@
           return;
         }
         if (myTurn) {
-          whoseTurn.textContent = "あなたのターンです";
+          whoseTurn.textContent = "myId";
         } else {
-          whoseTurn.textContent = "相手のターンです";
+          whoseTurn.textContent = "相手";
         }
       }
 
@@ -440,54 +440,54 @@
         ws.send(JSON.stringify({ type: 'place', col, id: myId }))//stoneを置いた場所send
       }
 
-      function victry(col, row, stone) {
+      // function victry(col, row, stone) {
 
-        // プレイヤー(stone)切り替え
+      //   // プレイヤー(stone)切り替え
 
 
-        function countSameColor(goC, goR) {
+      //   function countSameColor(goC, goR) {
 
-          let count = 1; // 自分自身をカウント
-          //縦方向（下に3つ+1➡起点から列固定(0)、行を負方向
-          //横方向（左右+1➡起点から行固定(0)、列を正方向＆負方向
-          //斜め1（右上左下+1➡（起点から列、行ともに正方向）+（起点から列、行ともに負）
-          //斜め2（左上右下+1➡（起点から列に負、行に正）+（起点から列に正、行に負）
-          //それぞれstoneが起点と同じならcount++;
-          //並んだ合計がどこかしらで4だったら
-          //画面表示→"redサイドの勝利"
-          // 正
-          let c = col + goC;
-          let r = row + goR;
-          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
-            count++;
-            c += goC;
-            r += goR;
-          }
+      //     let count = 1; // 自分自身をカウント
+      //     //縦方向（下に3つ+1➡起点から列固定(0)、行を負方向
+      //     //横方向（左右+1➡起点から行固定(0)、列を正方向＆負方向
+      //     //斜め1（右上左下+1➡（起点から列、行ともに正方向）+（起点から列、行ともに負）
+      //     //斜め2（左上右下+1➡（起点から列に負、行に正）+（起点から列に正、行に負）
+      //     //それぞれstoneが起点と同じならcount++;
+      //     //並んだ合計がどこかしらで4だったら
+      //     //画面表示→"redサイドの勝利"
+      //     // 正
+      //     let c = col + goC;
+      //     let r = row + goR;
+      //     while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
+      //       count++;
+      //       c += goC;
+      //       r += goR;
+      //     }
 
-          // 負
-          c = col - goC;
-          r = row - goR;
-          while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
-            count++;
-            c -= goC;
-            r -= goR;
-          }
+      //     // 負
+      //     c = col - goC;
+      //     r = row - goR;
+      //     while (c >= 0 && c < cols && r >= 0 && r < rows && board[c][r] === stone) {
+      //       count++;
+      //       c -= goC;
+      //       r -= goR;
+      //     }
 
-          return count;
+      //     return count;
 
-        }
-        if (countSameColor(0, 1) >= 4 ||    // 縦
-          countSameColor(1, 0) >= 4 ||      // 横
-          countSameColor(1, 1) >= 4 ||      // 斜め（右下）
-          countSameColor(-1, 1) >= 4        // 斜め（左下）
-        ) {
+      //   }
+      //   if (countSameColor(0, 1) >= 4 ||    // 縦
+      //     countSameColor(1, 0) >= 4 ||      // 横
+      //     countSameColor(1, 1) >= 4 ||      // 斜め（右下）
+      //     countSameColor(-1, 1) >= 4        // 斜め（左下）
+      //   ) {
           
-          for (let i = 0; i < cols; i++) {//列選択ボタン停止
-            colbtn[i].disabled = true;
-            alert(`${stone} サイドの勝利`);
-          }
-        }
-      }
+      //     for (let i = 0; i < cols; i++) {//列選択ボタン停止
+      //       colbtn[i].disabled = true;
+      //       alert(`${stone} サイドの勝利`);
+      //     }
+      //   }
+      //}
 
       function restartGame() {
         // ボードの状態を空にする
@@ -534,11 +534,6 @@
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
           drawBoard()
-          myTurn = msg.nextTurn === myId
-          updateTurn()
-          if (msg.message) {
-            statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
-          }
           if (msg.winner) {
             // 勝利時は全ボタンを無効化
             for (let i = 0; i < cols; i++) {
@@ -546,10 +541,19 @@
             }
             // 勝者・敗者でアラート内容を分ける
             if (msg.winner === myId) {
+              statusMessage.textContent = "あなたの勝ちです！";
               alert("あなたの勝ちです！");
             } else {
+              statusMessage.textContent = "あなたの負けです…";
               alert("あなたの負けです…");
             }
+            // 勝利時はターン表示・切り替えを行わない
+            return;
+          }
+          myTurn = msg.nextTurn === myId
+          updateTurn()
+          if (msg.message) {
+            statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
           }
         }
 

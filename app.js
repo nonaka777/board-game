@@ -87,6 +87,17 @@ if (players.length > 2) {
         nextTurn: players[currentTurn].id
       });
     }
+     if (data.type === "reset") {
+      // 盤面・ターン・勝利判定をリセット
+      board = Array.from({ length: 6 }, () => []);
+      currentTurn = 0;
+      // 必要なら勝利判定用変数もリセット
+
+      // 全員にリセット通知
+      players.forEach(p => {
+        p.ws.send(JSON.stringify({ type: "reset" }));
+      });
+    }
   })
 
   ws.on('close', () => {

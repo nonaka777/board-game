@@ -564,8 +564,17 @@
           colbtn[i].disabled = false; // ボタン有効化
         }
 
-        //一旦、毎回、赤側からスタート
-        stone = "red";
+        // 状態変数を初期化
+        gameStarted = false;
+        myTurn = false;
+        statusMessage.textContent = "相手を待っています...";
+        whoseTurn.textContent = "";
+
+        // 必要なら自分の色やIDも初期化（通常は不要）
+
+        // サーバーにリセット通知
+        ws.send(JSON.stringify({ type: "reset", id: myId }));
+
       }
       // 最初の描画
 

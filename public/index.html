@@ -204,7 +204,7 @@
               <sapn class="myname">自分</sapn> vs. <span class="enemyname">相手</span><button type="button" id="restart-btn"
                 class="d-flex justify-content-between align-self-center">リスタート</button>
             </p>
-            <div id="whose-turn" class="text-center mt-2"></div>
+            <div id="whose-tarn" class="text-center mt-2"></div>
           </div>
           <div class="container-fluid">
             <div class="row">
@@ -365,14 +365,14 @@
     </div>
   </div>
   <script>
-    function main() {
+  function main() {
 
       const statusMessage = document.getElementById('status-message')
 
       const host = location.origin.replace(/^http/, 'ws');
       const ws = new WebSocket(host + '/ws');
       let myId = self.crypto.randomUUID().substr(0, 8);
-      let myColor;
+       let myColor;
 
       const rows = 6;
       const cols = 6;
@@ -395,7 +395,13 @@
 
       const restart = document.getElementById("restart-btn");
       restart.addEventListener("click", restartGame);
-      let whoseTurn = document.getElementById('whose-tarn');
+      const whoseTurn = document.getElementById('whose-turn');
+
+      const rotateBtn = document.getElementById("rotate-btn");
+      rotateBtn.addEventListener("click", () => {
+        if (!myTurn || !gameStarted) return;
+        ws.send(JSON.stringify({ type: "rotate", id: myId }));
+      });
 
 
       let stone = "red";
@@ -424,13 +430,13 @@
         }
       }
 
-      function updateTurn() {
+        function whose() {
         if (!gameStarted) {
           whose-tarn.textContent == "";
           return;
         }
         if (myTurn) {
-          whose-tarn.textContent == "myId";
+          whose-tarn.textContent== "myId";
         } else {
           whose-tarn.textContent == "相手";
         }
@@ -513,13 +519,31 @@
       //     countSameColor(1, 1) >= 4 ||      // 斜め（右下）
       //     countSameColor(-1, 1) >= 4        // 斜め（左下）
       //   ) {
-
+          
       //     for (let i = 0; i < cols; i++) {//列選択ボタン停止
       //       colbtn[i].disabled = true;
       //       alert(`${stone} サイドの勝利`);
       //     }
       //   }
       //}
+
+      // 盤面を90度回転して下に詰め直す
+      function rotateBoard() {
+        // board: [col][row] → [row][col]で回転
+        const newBoard = Array.from({ length: cols }, () => []);
+        for (let col = 0; col < cols; col++) {
+          for (let row = 0; row < board[col].length; row++) {
+            // 90度回転: 新しい列 = row, 新しい行 = cols-1-col
+            newBoard[row][cols - 1 - col] = board[col][row];
+          }
+        }
+        // 下に詰め直す
+        for (let col = 0; col < cols; col++) {
+          // 空要素を除去して下に詰める
+          newBoard[col] = newBoard[col].filter(x => x);
+        }
+        for (let i = 0; i < cols; i++) board[i] = newBoard[i];
+      }
 
       function restartGame() {
         // ボードの状態を空にする
@@ -563,6 +587,13 @@
           updateTurn()
         }
 
+         if (msg.type === "rotate") {
+          rotateBoard();
+          drawBoard();
+          myTurn = msg.nextTurn === myId;
+          updateTurn();
+        }
+        
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
           drawBoard()
@@ -584,6 +615,7 @@
             // 勝利時はターン表示・切り替えを行わない
             return;
           }
+          
           myTurn = msg.nextTurn === myId
           updateTurn()
           if (msg.message) {

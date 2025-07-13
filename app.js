@@ -66,6 +66,27 @@ if (players.length > 2) {
 
       if (!win) currentTurn = (currentTurn + 1) % 2
     }
+    if (data.type === "rotate") {
+      if (players[currentTurn].id !== data.id) return;
+      // 盤面回転
+      const cols = 6, rows = 6;
+      const newBoard = Array.from({ length: cols }, () => []);
+      for (let col = 0; col < cols; col++) {
+        for (let row = 0; row < board[col].length; row++) {
+          newBoard[row][cols - 1 - col] = board[col][row];
+        }
+      }
+      for (let col = 0; col < cols; col++) {
+        newBoard[col] = newBoard[col].filter(x => x);
+      }
+      board = newBoard;
+      currentTurn = (currentTurn + 1) % 2;
+      result({
+        type: "rotate",
+        board,
+        nextTurn: players[currentTurn].id
+      });
+    }
   })
 
   ws.on('close', () => {

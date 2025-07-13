@@ -520,7 +520,18 @@
           if (msg.message) {
             statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
           }
-          if (msg.winner) alert(`${msg.color}の勝ち！`)
+          if (msg.winner) {
+            // 勝利時は全ボタンを無効化
+            for (let i = 0; i < cols; i++) {
+              colbtn[i].disabled = true;
+            }
+            // 勝者・敗者でアラート内容を分ける
+            if (msg.winner === myId) {
+              alert("あなたの勝ちです！");
+            } else {
+              alert("あなたの負けです…");
+            }
+          }
         }
 
         if (msg.type === 'reset') {//相手がリスタートボタンおした

@@ -60,7 +60,7 @@ if (players.length > 2) {
         color: players[playerIndex].color,
         nextTurn: players[(currentTurn + 1) % 2].id,
         winner: win ? players[playerIndex].id : null, // ←追加
-        message: win ? `${players[playerIndex].color}の勝ち！` : null 
+        //message: win ? `${players[playerIndex].color}の勝ち！` : null 
 
       })
 
@@ -123,6 +123,7 @@ function result(obj) {
 app.listen(port, () => {
   console.log(`http://localhost:${port}`)
 })
+//whose-tarn
 // const express = require('express')
 // const expressWs = require('express-ws')
 

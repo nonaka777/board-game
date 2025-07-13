@@ -59,7 +59,9 @@ if (players.length > 2) {
         row,
         color: players[playerIndex].color,
         nextTurn: players[(currentTurn + 1) % 2].id,
-        winner: win ? players[playerIndex].id : null
+        winner: win ? players[playerIndex].id : null, // ←追加
+        message: win ? `${players[playerIndex].color}の勝ち！` : null 
+
       })
 
       if (!win) currentTurn = (currentTurn + 1) % 2

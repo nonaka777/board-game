@@ -334,10 +334,13 @@
   <script>
        function main() {
 
-      // const statusMessage = document.getElementById('status-message')
+      const statusMessage = document.getElementById('status-message')
 
-      // const ws = new WebSocket('ws://' + location.host + '/ws')
-      // let myId, myColor
+      
+      const host = location.origin.replace(/^http/, 'ws')
+        const ws = new WebSocket(host + '/ws')
+        const myId = self.crypto.randomUUID().substr(0, 8)
+      //let myColor
 
       const rows = 6;
       const cols = 6;
@@ -392,10 +395,10 @@
           alert("この列は選択できません");
           return;
         }
-        //if (!myTurn) {//画面表示
-        //  alert("相手のターンです");
-        //  return;
-        //}
+        if (!myTurn) {//画面表示
+         alert("相手のターンです");
+         return;
+        }
         board[col].push(stone); // 石を追加
         drawBoard(); // 再描画
         const row = board[col].length - 1;
@@ -484,40 +487,40 @@
 
       //通信機能
 
-  //     let myTurn = false; // 自分のターンかどうか（初期はfalse）
+      let myTurn = false; // 自分のターンかどうか（初期はfalse）
 
-  //     ws.onmessage = (event) => {//受信
-  //       const msg = JSON.parse(event.data)
+      ws.onmessage = (event) => {//受信
+        const msg = JSON.parse(event.data)
 
-  //        if (msg.type === 'full') {
-  //   statusMessage.textContent = "満員です。観戦またはリロードしてください。"
-  //   return
-  // }
+         if (msg.type === 'full') {
+    statusMessage.textContent = "満員です。観戦またはリロードしてください。"
+    return
+  }
 
-  //       if (msg.type === 'init') {//初期設定
-  //         myId = msg.id
-  //         myColor = msg.color
-  //         myTurn = msg.turn === myId
+        if (msg.type === 'init') {//初期設定
+          myId = msg.id
+          myColor = msg.color
+          myTurn = msg.turn === myId
 
-  //         statusMessage.textContent = ""
+          statusMessage.textContent = ""
 
-  //         updateTurn()
-  //       }
+          updateTurn()
+        }
 
-  //       if (msg.type === 'update') {//相手の行動
-  //         board[msg.col].push(msg.color)
-  //         drawBoard()
-  //         myTurn = msg.nextTurn === myId
-  //         updateTurn()
-  //         if (msg.winner) alert(`${msg.color}の勝ち！`)
-  //       }
+        if (msg.type === 'update') {//相手の行動
+          board[msg.col].push(msg.color)
+          drawBoard()
+          myTurn = msg.nextTurn === myId
+          updateTurn()
+          if (msg.winner) alert(`${msg.color}の勝ち！`)
+        }
 
-  //       if (msg.type === 'reset') {//相手がリスタートボタンおした
+        if (msg.type === 'reset') {//相手がリスタートボタンおした
 
-  //         statusMessage.textContent = "ゲームがリスタートされました"
-  //         restartGame()
-  //       }
-  //     }
+          statusMessage.textContent = "ゲームがリスタートされました"
+          restartGame()
+        }
+      }
 
     }
     main();

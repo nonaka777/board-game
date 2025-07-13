@@ -332,14 +332,14 @@
     </div>
   </div>
   <script>
-       function main() {
+    function main() {
 
       const statusMessage = document.getElementById('status-message')
 
-      
+
       const host = location.origin.replace(/^http/, 'ws')
-        const ws = new WebSocket(host + '/ws')
-        const myId = self.crypto.randomUUID().substr(0, 8)
+      const ws = new WebSocket(host + '/ws')
+      const myId = self.crypto.randomUUID().substr(0, 8)
       //let myColor
 
       const rows = 6;
@@ -396,8 +396,12 @@
           return;
         }
         if (!myTurn) {//画面表示
-         alert("相手のターンです");
-         return;
+          alert("相手のターンです");
+          return;
+        }
+        if (!gameStarted) {
+          alert("まだ相手が来ていません")
+          return;
         }
         board[col].push(stone); // 石を追加
         drawBoard(); // 再描画
@@ -486,25 +490,25 @@
       drawBoard();
 
       //通信機能
-
+      let gameStarted = false;
       let myTurn = false; // 自分のターンかどうか（初期はfalse）
 
       ws.onmessage = (event) => {//受信
-        const msg = JSON.parse(event.data)
+        const msg = JSON.parse(event.data);
 
-         if (msg.type === 'full') {
-    statusMessage.textContent = "満員です。観戦またはリロードしてください。"
-    return
-  }
+        if (msg.type === 'full') {
+          statusMessage.textContent = "満員です。観戦またはリロードしてください。"
+          return;
+        }
 
         if (msg.type === 'init') {//初期設定
-          myId = msg.id
-          myColor = msg.color
-          myTurn = msg.turn === myId
-
+          myId = msg.id;
+          myColor = msg.color;
+          myTurn = msg.turn === myId;
+          gameStarted = true;
           statusMessage.textContent = ""
 
-          updateTurn()
+          updateTurn();
         }
 
         if (msg.type === 'update') {//相手の行動
@@ -516,7 +520,7 @@
         }
 
         if (msg.type === 'reset') {//相手がリスタートボタンおした
-
+          gameStarted = false
           statusMessage.textContent = "ゲームがリスタートされました"
           restartGame()
         }
@@ -769,4 +773,3 @@
   </body>
 </html>
  -->
-

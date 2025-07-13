@@ -10,22 +10,24 @@ app.use(express.static('public'))
 let players = []
 let board = Array.from({ length: 6 }, () => []) // 盤面
 let currentTurn = 0
-
+//const statusMessage = document.getElementById('status-message')
 
 app.ws('/ws', (ws) => {//定員2
-  if (players.length >= 2) {
+if (players.length >= 2) {
     ws.send(JSON.stringify({ type: 'full' }))
     return ws.close()
   }
 
+  
   const playerId = Math.random().toString(36).substr(2, 8)
   const color = players.length === 0 ? 'red' : 'blue'
+  const player = { ws, id: playerId, color }
 
   players.push({ ws, id: playerId, color })
   console.log(`Player connected: ${playerId} (${color})`)
 
   // プレイヤーに初期情報を送る
- if (players.length === 2) {
+  if (players.length === 2) {
     players.forEach(p => {
       p.ws.send(JSON.stringify({
         type: 'init',
@@ -48,7 +50,7 @@ app.ws('/ws', (ws) => {//定員2
       const row = board[col].length
       board[col].push(players[playerIndex].color)
 
-      const win =  victry(col, row, players[playerIndex].color)
+      const win = victry(col, row, players[playerIndex].color)
 
       // 全員に更新を送信
       result({
@@ -65,10 +67,11 @@ app.ws('/ws', (ws) => {//定員2
   })
 
   ws.on('close', () => {
+    console.log(`Player ${playerId} disconnected`)
     players = players.filter(p => p.ws !== ws)
     board = Array.from({ length: 6 }, () => [])
     currentTurn = 0
-    result({ type: 'reset' })
+    broadcast({ type: 'reset' })
   })
 })
 

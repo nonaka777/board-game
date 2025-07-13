@@ -339,8 +339,8 @@
 
       const host = location.origin.replace(/^http/, 'ws')
       const ws = new WebSocket(host + '/ws')
-      const myId = self.crypto.randomUUID().substr(0, 8)
-      //let myColor
+      let myId = self.crypto.randomUUID().substr(0, 8)
+      let myColor
 
       const rows = 6;
       const cols = 6;

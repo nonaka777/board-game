@@ -603,6 +603,7 @@
           statusMessage.textContent = ""
 
           updateTurn()
+          return;
         }
 
         if (msg.type === "rotate") {
@@ -610,6 +611,7 @@
           drawBoard();
           myTurn = msg.nextTurn === myId;
           updateTurn();
+          return;
         }
 
         if (msg.type === 'update') {//相手の行動
@@ -645,6 +647,7 @@
           gameStarted = false
           statusMessage.textContent = "ゲームがリスタートされました"
           restartGame();
+          return;
         }
       }
 

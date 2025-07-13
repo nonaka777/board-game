@@ -10,7 +10,7 @@ app.use(express.static('public'))
 let players = []
 let board = Array.from({ length: 6 }, () => []) // 盤面
 let currentTurn = 0
-players.push({ ws, id: playerId, color })
+
 
 app.ws('/ws', (ws) => {//定員2
   if (players.length >= 2) {

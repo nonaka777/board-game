@@ -404,7 +404,7 @@
 
       const restart = document.getElementById("restart-btn");
       restart.addEventListener("click", restartGame);
-      const whoseTurn = document.getElementById('whose-turn');
+      let whoseTarn = document.getElementById('whose-tarn');
 
       const rotateBtn = document.getElementById("rotate-btn");
       rotateBtn.addEventListener("click", () => {
@@ -441,13 +441,13 @@
 
       function updateTurn() {
         if (!gameStarted) {
-          whose - tarn.textContent == "";
+          whoseTarn.textContent == "";
           return;
         }
         if (myTurn) {
-          whose - tarn.textContent == "myId";
+          whoseTarn.textContent == "myId";
         } else {
-          whose - tarn.textContent == "相手";
+          whoseTarn.textContent == "相手";
         }
       }
 

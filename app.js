@@ -10,6 +10,7 @@ app.use(express.static('public'))
 let players = []
 let board = Array.from({ length: 6 }, () => []) // 盤面
 let currentTurn = 0
+players.push({ ws, id: playerId, color })
 
 app.ws('/ws', (ws) => {//定員2
   if (players.length >= 2) {
@@ -24,13 +25,16 @@ app.ws('/ws', (ws) => {//定員2
   console.log(`Player connected: ${playerId} (${color})`)
 
   // プレイヤーに初期情報を送る
-  ws.send(JSON.stringify({
-    type: 'init',
-    id: playerId,
-    color: color,
-    turn: players[currentTurn].id
-  }))
-
+  if (players.length === 2) {
+  players.forEach((p, i) => {
+    p.ws.send(JSON.stringify({
+      type: 'init',
+      id: p.id,
+      color: p.color,
+      turn: players[currentTurn].id
+    }))
+  })
+}
   ws.on('message', (msg) => {//受信
     const data = JSON.parse(msg)
 

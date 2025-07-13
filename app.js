@@ -13,7 +13,7 @@ let currentTurn = 0
 //const statusMessage = document.getElementById('status-message')
 
 app.ws('/ws', (ws) => {//定員2
-if (players.length >= 2) {
+if (players.length > 2) {
     ws.send(JSON.stringify({ type: 'full' }))
     return ws.close()
   }

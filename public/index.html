@@ -365,7 +365,6 @@
       <div class="col-sm-12 col-md-2 col-lg-4">
         <div class="card m-5 text-center">
           <div class="card-head">行動履歴</div>
-         
           <!--<div class="card-body">ここに文字を表示</div>-->
           <div id="status-message">対戦相手を待っています...</div>
         </div>
@@ -596,14 +595,14 @@
       //   logList.scrollTop = logList.scrollHeight; // 常に最新までスクロール
       // }
       
-      form.onsubmit = function (e) {
-        e.preventDefault()
-        const input = document.querySelector('.input')
-        const text = input.value
-        ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
-        input.value = ''
-        input.focus()
-      }
+      // form.onsubmit = function (e) {
+      //   e.preventDefault()
+      //   const input = document.querySelector('.input')
+      //   const text = input.value
+      //   ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
+      //   input.value = ''
+      //   input.focus()
+      // }
 
       // 最初の描画
 
@@ -631,7 +630,7 @@
           //           colbtn[i].disabled = false; // ボタン有効化
           //         }
           statusMessage.textContent = ""
-          addLog("対戦相手が入室しました。");
+          //addLog("対戦相手が入室しました。");
 
           updateTurn()
           return;
@@ -679,7 +678,6 @@
         if (msg.type === 'reset') {//相手がリスタートボタンおした
           gameStarted = true
           statusMessage.textContent = "ゲームがリスタートされました"
-          addLog("ゲームがリスタートされました");
           restartGame();
           if (players.length === 2) {
             players.forEach(p => {

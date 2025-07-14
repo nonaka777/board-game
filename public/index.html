@@ -483,7 +483,6 @@
         // } else {
         //   stone = "red";
         // }
-        setStatus("あなたがstoneをおきました");
         // ボタンを無効にする（列が満杯なら）
         if (board[col].length === rows) {//下から○○列の1行目、2行目と埋まっていく
           //○○列の配列の埋まり具合が6行目まできたら
@@ -648,7 +647,11 @@
 
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
-          setStatus("相手がstoneを置きました");
+          if (msg.id === myId) {
+            setStatus("あなたが stone を置きました");
+          } else {
+            setStatus("相手が stone を置きました");
+          }
           drawBoard()
           if (msg.winner) {
             // 勝利時は全ボタンを無効化

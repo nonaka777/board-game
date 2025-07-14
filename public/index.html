@@ -374,14 +374,14 @@
     </div>
   </div>
   <script>
-    let myId ;
+    let myId;
     function main() {
 
       const statusMessage = document.getElementById('status-message')
 
       const host = location.origin.replace(/^http/, 'ws');
       const ws = new WebSocket(host + '/ws');
-      
+
       let myColor;
 
       const rows = 6;
@@ -574,10 +574,10 @@
         // 状態変数を初期化
         gameStarted = false;
         myTurn = false;
-        
+
         statusMessage.textContent = "相手を待っています...";
         whoseTurn.textContent = "";
-        
+
         // 必要なら自分の色やIDも初期化（通常は不要）
 
         // サーバーにリセット通知
@@ -658,7 +658,7 @@
           if (players.length === 2) {
             players.forEach(p => {
               p.ws.send(JSON.stringify({
-                type: 'init',
+                type: "reset",
                 id: p.id,
                 color: p.color,
                 turn: players[currentTurn].id

@@ -129,8 +129,6 @@
       background-color: blue;
       border-radius: 50%;
     }
-
-   
   </style>
 </head>
 
@@ -459,14 +457,17 @@
       function dropStone(col) {
         if (board[col].length >= rows) {
           alert("この列は選択できません");
+          setStatus("この列はせんたくできません");
           return;
         }
         if (!myTurn) {//画面表示
           alert("相手のターンです");
+          setStatus("相手のターンです");
           return;
         }
         if (!gameStarted) {
           alert("まだ相手が来ていません");
+
           return;
         }
 
@@ -482,7 +483,7 @@
         // } else {
         //   stone = "red";
         // }
-
+        setStatus("あなたがstoneをおきました");
         // ボタンを無効にする（列が満杯なら）
         if (board[col].length === rows) {//下から○○列の1行目、2行目と埋まっていく
           //○○列の配列の埋まり具合が6行目まできたら
@@ -559,7 +560,7 @@
         // すべての石要素を消す
         const stones = document.querySelectorAll('.stone');
         stones.forEach(stone => stone.remove());
-
+        setStatus("回転されました");
         // 新しい配置で描画
         drawBoard();
       }
@@ -579,7 +580,7 @@
         myTurn = false;
 
         statusMessage.textContent = "相手を待っています...";
-        
+
         whoseTurn.textContent = "";
 
         // 必要なら自分の色やIDも初期化（通常は不要）
@@ -589,20 +590,20 @@
 
       }
       function addLog(message) {
-  const logList = document.querySelector('.log-list');
-  if (!logList) return console.warn("log-list が見つかりません");
-  const li = document.createElement('li');
-  li.textContent = message;
-  logList.appendChild(li);
-  logList.scrollTop = logList.scrollHeight;
-}
+        const logList = document.querySelector('.log-list');
+        if (!logList) return console.warn("log-list が見つかりません");
+        const li = document.createElement('li');
+        li.textContent = message;
+        logList.appendChild(li);
+        logList.scrollTop = logList.scrollHeight;
+      }
 
-function setStatus(message) {
-  const statusMessage = document.getElementById('status-message');
-  if (!statusMessage) return console.warn("status-message が見つかりません");
-  statusMessage.textContent = message;
-  addLog(message);
-}
+      function setStatus(message) {
+        const statusMessage = document.getElementById('status-message');
+        if (!statusMessage) return console.warn("status-message が見つかりません");
+        statusMessage.textContent = message;
+        addLog(message);
+      }
 
       // 最初の描画
 
@@ -616,8 +617,9 @@ function setStatus(message) {
         const msg = JSON.parse(event.data)
 
         if (msg.type === 'full') {
-          statusMessage.textContent = "満員です。観戦またはリロードしてください。"
-          
+
+          setStatus("満員です。観戦またはリロードしてください。");
+
           return
         }
 
@@ -646,6 +648,7 @@ function setStatus(message) {
 
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
+          setStatus("相手がstoneを置きました");
           drawBoard()
           if (msg.winner) {
             // 勝利時は全ボタンを無効化
@@ -657,11 +660,11 @@ function setStatus(message) {
               if (msg.winner === myId) {
                 setStatus("あなたの勝ちです！");
                 alert("あなたの勝ちです！");
-                
+
               } else {
                 setStatus("あなたの負けです…");
                 alert("あなたの負けです…");
-                
+
               }
             }, 300); // 300ms待つ
             // 勝利時はターン表示・切り替えを行わない
@@ -690,7 +693,7 @@ function setStatus(message) {
             });
           }
         }
-        
+
       }
 
     }

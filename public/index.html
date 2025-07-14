@@ -647,11 +647,8 @@
 
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
-          if (msg.id === myId) {
-            setStatus("あなたが stone を置きました");
-          } else {
-            setStatus("相手が stone を置きました");
-          }
+          setStatus("stone配置");
+          
           drawBoard()
           if (msg.winner) {
             // 勝利時は全ボタンを無効化

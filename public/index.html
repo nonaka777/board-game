@@ -129,6 +129,24 @@
       background-color: blue;
       border-radius: 50%;
     }
+
+    .log-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background-color: #f8f9fa;
+      text-align: left;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+    }
+
+    .log-list li {
+      padding: 4px 8px;
+      border-bottom: 1px solid #eee;
+    }
   </style>
 </head>
 
@@ -595,13 +613,13 @@
       }
       const form = document.querySelector('.form')
       form.onsubmit = function (e) {
-          e.preventDefault()
-          const input = document.querySelector('.input')
-          const text = input.value
-          ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
-          input.value = ''
-          input.focus()
-        }
+        e.preventDefault()
+        const input = document.querySelector('.input')
+        const text = input.value
+        ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
+        input.value = ''
+        input.focus()
+      }
 
       // 最初の描画
 
@@ -690,17 +708,17 @@
             });
           }
         }
-         if (msg.type === 'chat') {
-            const { id, text } = msg
-            const messageList = document.querySelector('.messages')
-            const li = document.createElement('li')
-            if (id === myId) {
-              li.textContent = `(${id})自分:` + text
-            } else {
-              li.textContent = id + ': ' + text
-            }
-            messageList.appendChild(li)
+        if (msg.type === 'chat') {
+          const { id, text } = msg
+          const messageList = document.querySelector('.messages')
+          const li = document.createElement('li')
+          if (id === myId) {
+            li.textContent = `(${id})自分:` + text
+          } else {
+            li.textContent = id + ': ' + text
           }
+          messageList.appendChild(li)
+        }
       }
 
     }

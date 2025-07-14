@@ -130,23 +130,7 @@
       border-radius: 50%;
     }
 
-    .log-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-height: 200px;
-      overflow-y: auto;
-      background-color: #f8f9fa;
-      text-align: left;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-    }
-
-    .log-list li {
-      padding: 4px 8px;
-      border-bottom: 1px solid #eee;
-    }
+   
   </style>
 </head>
 
@@ -381,7 +365,7 @@
       <div class="col-sm-12 col-md-2 col-lg-4">
         <div class="card m-5 text-center">
           <div class="card-head">行動履歴</div>
-          <ul class="log-list"></ul>
+         
           <!--<div class="card-body">ここに文字を表示</div>-->
           <div id="status-message">対戦相手を待っています...</div>
         </div>
@@ -595,7 +579,7 @@
         myTurn = false;
 
         statusMessage.textContent = "相手を待っています...";
-        addLog("相手を待っています...");
+        
         whoseTurn.textContent = "";
 
         // 必要なら自分の色やIDも初期化（通常は不要）
@@ -604,14 +588,14 @@
         ws.send(JSON.stringify({ type: "reset", id: myId }));
 
       }
-      function addLog(message) {
-        const logList = document.querySelector('.log-list');
-        const li = document.createElement('li');
-        li.textContent = message;
-        logList.appendChild(li);
-        logList.scrollTop = logList.scrollHeight; // 常に最新までスクロール
-      }
-      const form = document.querySelector('.form')
+      // function addLog(message) {
+      //   const logList = document.querySelector('.log-list');
+      //   const li = document.createElement('li');
+      //   li.textContent = message;
+      //   logList.appendChild(li);
+      //   logList.scrollTop = logList.scrollHeight; // 常に最新までスクロール
+      // }
+      
       form.onsubmit = function (e) {
         e.preventDefault()
         const input = document.querySelector('.input')
@@ -634,7 +618,7 @@
 
         if (msg.type === 'full') {
           statusMessage.textContent = "満員です。観戦またはリロードしてください。"
-          addLog("満員です。観戦またはリロードしてください。");
+          
           return
         }
 
@@ -674,11 +658,11 @@
               if (msg.winner === myId) {
                 statusMessage.textContent = "あなたの勝ちです！";
                 alert("あなたの勝ちです！");
-                addLog("あなたの勝ちです！");
+                
               } else {
                 statusMessage.textContent = "あなたの負けです…";
                 alert("あなたの負けです…");
-                addLog("あなたの負けです…");
+                
               }
             }, 300); // 300ms待つ
             // 勝利時はターン表示・切り替えを行わない

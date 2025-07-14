@@ -365,6 +365,7 @@
       <div class="col-sm-12 col-md-2 col-lg-4">
         <div class="card m-5 text-center">
           <div class="card-head">行動履歴</div>
+          <ul class="log-list"></ul>
           <!--<div class="card-body">ここに文字を表示</div>-->
           <div id="status-message">対戦相手を待っています...</div>
         </div>
@@ -587,22 +588,21 @@
         ws.send(JSON.stringify({ type: "reset", id: myId }));
 
       }
-      // function addLog(message) {
-      //   const logList = document.querySelector('.log-list');
-      //   const li = document.createElement('li');
-      //   li.textContent = message;
-      //   logList.appendChild(li);
-      //   logList.scrollTop = logList.scrollHeight; // 常に最新までスクロール
-      // }
-      
-      // form.onsubmit = function (e) {
-      //   e.preventDefault()
-      //   const input = document.querySelector('.input')
-      //   const text = input.value
-      //   ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
-      //   input.value = ''
-      //   input.focus()
-      // }
+      function addLog(message) {
+  const logList = document.querySelector('.log-list');
+  if (!logList) return console.warn("log-list が見つかりません");
+  const li = document.createElement('li');
+  li.textContent = message;
+  logList.appendChild(li);
+  logList.scrollTop = logList.scrollHeight;
+}
+
+function setStatus(message) {
+  const statusMessage = document.getElementById('status-message');
+  if (!statusMessage) return console.warn("status-message が見つかりません");
+  statusMessage.textContent = message;
+  addLog(message);
+}
 
       // 最初の描画
 
@@ -630,7 +630,7 @@
           //           colbtn[i].disabled = false; // ボタン有効化
           //         }
           statusMessage.textContent = ""
-          //addLog("対戦相手が入室しました。");
+          setStatus("対戦相手が入室しました。");
 
           updateTurn()
           return;
@@ -655,11 +655,11 @@
             setTimeout(() => {
               // 勝者・敗者でアラート内容を分ける
               if (msg.winner === myId) {
-                statusMessage.textContent = "あなたの勝ちです！";
+                setStatus("あなたの勝ちです！");
                 alert("あなたの勝ちです！");
                 
               } else {
-                statusMessage.textContent = "あなたの負けです…";
+                setStatus("あなたの負けです…");
                 alert("あなたの負けです…");
                 
               }

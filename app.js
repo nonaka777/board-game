@@ -25,11 +25,17 @@ if (players.length > 2) {
 
   players.push({ ws, id: playerId, color })
   console.log(`Player connected: ${playerId} (${color})`)
-  console.log(`現在の接続プレイヤー数: ${players.length}`);
 
   // プレイヤーに初期情報を送る
   if (players.length === 2) {
-     sendInitToAll();
+    players.forEach(p => {
+      p.ws.send(JSON.stringify({
+        type: 'init',
+        id: p.id,
+        color: p.color,
+        turn: players[currentTurn].id
+      }))
+    })
   }
   ws.on('message', (msg) => {//受信
     const data = JSON.parse(msg)
@@ -63,8 +69,7 @@ if (players.length > 2) {
     if (data.type === "rotate") {
       if (players[currentTurn].id !== data.id) return;
       // 盤面回転
-      const cols = 6;
-      rows = 6;
+      const cols = 6, rows = 6;
       const newBoard = Array.from({ length: cols }, () => []);
       for (let col = 0; col < cols; col++) {
         for (let row = 0; row < board[col].length; row++) {
@@ -92,9 +97,6 @@ if (players.length > 2) {
       players.forEach(p => {
         p.ws.send(JSON.stringify({ type: "reset" }));
       });
-      if (players.length === 2) {
-        sendInitToAll(); 
-      }
     }
   })
 

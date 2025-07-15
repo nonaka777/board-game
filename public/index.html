@@ -135,18 +135,17 @@
 
     .card {
       height: 20rem;
+      max-width: 20rem;
       min-width: 15rem;
-      /*min-height: 10rem;
-            max-height: 20rem;*/
     }
 
     .log-block {
       margin-top: 10rem;
     }
 
-    @media (min-width: 576px) {
-      .log-block {
-        margin-top: 2rem;
+    @media (max-width: 992px) {
+      .log-list {
+        margin-top: 0;
       }
     }
 
@@ -249,7 +248,7 @@
   <!-- 盤面6x6 -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12 col-md-10 col-lg-8">
+      <div class="col-lg-8">
         <div class="board m-5">
           <div class="player-names text-center">
             <p>
@@ -410,26 +409,34 @@
         </div>
       </div>
       <!-- チャットなど。間に合わなければ削除 -->
-      <div class="col-sm-12 col-md-1 col-lg-3">
-        <div class="log-block" style="display: flex; flex-direction: column;">
-          <div class="card m-5 text-center" style="flex-grow: 1;">
-            <div class="card-head">行動履歴</div>
-            <ul class="log-list overflow-auto"></ul>
-            <!--<div class="card-body">ここに文字を表示</div>-->
-            <div id="status-message" class="card-body" style="flex-grow: 1;">対戦相手を待っています...</div>
+      <div class="col-lg-4">
+        <div class="row">
+          <div class="col">
+            <div class="log-block" style="display: flex; flex-direction: column;">
+              <div class="card m-5 text-center" style="flex-grow: 1;">
+                <div class="card-head">行動履歴</div>
+                <ul class="log-list overflow-auto"></ul>
+                <!--<div class="card-body">ここに文字を表示</div>-->
+                <div id="status-message" class="card-body" style="flex-grow: 1;">対戦相手を待っています...</div>
+              </div>
+            </div>
           </div>
-          <div class="card m-5 text-center chat" style="flex-grow: 1;">
-            <div class="card-head">チャット</div>
-            <ul class="messages overflow-auto"></ul>
-            <div class="card-body" style="flex-grow: 1;">ここに文字を表示</div>
-            <div class="card-footer" style="height: 4rem; align-items: center;">
-              <form class="form">
-                <input class="input" autocomplete="off" />
-                <button class="submit" style="background-color: blue; color: white;">Send</button>
-              </form>
+
+          <div class="col">
+            <div class="card m-5 text-center chat" style="flex-grow: 1;">
+              <div class="card-head">チャット</div>
+              <ul class="messages overflow-auto"></ul>
+              <!--<div class="card-body" style="flex-grow: 1;">ここに文字を表示</div>-->
+              <div class="card-footer" style="height: 4rem; align-items: center;">
+                <form class="form">
+                  <input class="input" autocomplete="off" />
+                  <button class="submit" style="background-color: blue; color: white;">Send</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

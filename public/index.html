@@ -745,11 +745,12 @@
           }
           
            if (msg.type === 'chat') {
-    const chatBox = document.getElementById('card-footer')
-    const messageElem = document.createElement('div')
-    messageElem.textContent = msg.text
-    chatBox.appendChild(messageElem)
-  }
+  const chatBody = document.querySelector('.chat .card-body')
+  if (!chatBody) return console.warn('チャット表示エリアが見つかりません');
+
+  const messageElem = document.createElement('div');
+  messageElem.textContent = `(${msg.id}) ${msg.text}`;
+  chatBody.appendChild(messageElem);  }
         }
 
         const form = document.querySelector('.form')

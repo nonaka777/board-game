@@ -106,8 +106,8 @@ app.ws('/ws', (ws) => {//定員2
       }
 
     }
-    if (msg.type === 'chat') {
-      const text = msg.text;
+    if (data.type === 'chat') {
+      const text = data.text;
 
       // すべてのプレイヤーに転送
       players.forEach(p => {

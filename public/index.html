@@ -144,9 +144,39 @@
     }
 
     @media (min-width: 576px) {
-      .log-list {
+      .log-block {
         margin-top: 2rem;
       }
+    }
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .form {
+      display: flex;
+    }
+
+    .input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .submit {
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #eee;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -387,9 +417,16 @@
             <!--<div class="card-body">ここに文字を表示</div>-->
             <div id="status-message" class="card-body overflow-auto" style="flex-grow: 1;">対戦相手を待っています...</div>
           </div>
-          <div class="card m-5 text-center" style="flex-grow: 1;">
+          <div class="card m-5 text-center chat" style="flex-grow: 1;">
             <div class="card-head">チャット</div>
+            <ul class="messages"></ul>
             <div class="card-body" style="flex-grow: 1;">ここに文字を表示</div>
+            <div class="card-footer">
+              <form class="form">
+                <input class="input" autocomplete="off" />
+                <button class="submit" style="background-color: blue; color: white;">Send💛</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

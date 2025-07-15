@@ -131,6 +131,23 @@
       background-color: blue;
       border-radius: 50%;
     }
+
+    .card {
+      height: 20rem;
+      min-width: 5rem;
+      /*min-height: 10rem;
+            max-height: 20rem;*/
+    }
+
+    .log-block {
+      margin-top: 10rem;
+    }
+
+    @media (min-width: 576px) {
+      .log-list {
+        margin-top: 2rem;
+      }
+    }
   </style>
 </head>
 
@@ -362,16 +379,18 @@
         </div>
       </div>
       <!-- チャットなど。間に合わなければ削除 -->
-      <div class="col-sm-12 col-md-2 col-lg-4">
-        <div class="card m-5 text-center">
-          <div class="card-head">行動履歴</div>
-          <ul class="log-list"></ul>
-          <!--<div class="card-body">ここに文字を表示</div>-->
-          <div id="status-message">対戦相手を待っています...</div>
-        </div>
-        <div class="card m-5 text-center">
-          <div class="card-head">チャット</div>
-          <div class="card-body">ここに文字を表示</div>
+      <div class="col-sm-12 col-md-1 col-lg-3">
+        <div class="log-block" style="display: flex; flex-direction: column;">
+          <div class="card m-5 text-center" style="flex-grow: 1;">
+            <div class="card-head">行動履歴</div>
+            <ul class="log-list"></ul>
+            <!--<div class="card-body">ここに文字を表示</div>-->
+            <div id="status-message" class="card-body overflow-auto" style="flex-grow: 1;">対戦相手を待っています...</div>
+          </div>
+          <div class="card m-5 text-center" style="flex-grow: 1;">
+            <div class="card-head">チャット</div>
+            <div class="card-body" style="flex-grow: 1;">ここに文字を表示</div>
+          </div>
         </div>
       </div>
     </div>
@@ -650,7 +669,7 @@
         if (msg.type === 'update') {//相手の行動
           board[msg.col].push(msg.color)
           setStatus("stone配置");
-          
+
           drawBoard()
           if (msg.winner) {
             // 勝利時は全ボタンを無効化

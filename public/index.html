@@ -744,17 +744,12 @@
             statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
           }
           
-          if (msg.type === 'chat') {
-            const { id, text } = msg
-            const messageList = document.querySelector('.messages')
-            const li = document.createElement('li')
-            if (id === myId) {
-              li.textContent = `(${id})自分:` + text
-            } else {
-              li.textContent = id + ': ' + text
-            }
-            messageList.appendChild(li)
-          }
+           if (msg.type === 'chat') {
+    const chatBox = document.getElementById('card-footer')
+    const messageElem = document.createElement('div')
+    messageElem.textContent = msg.text
+    chatBox.appendChild(messageElem)
+  }
         }
 
         const form = document.querySelector('.form')

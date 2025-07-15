@@ -13,12 +13,12 @@ let currentTurn = 0
 //const statusMessage = document.getElementById('status-message')
 
 app.ws('/ws', (ws) => {//定員2
-if (players.length >= 2) {
+  if (players.length >= 2) {
     ws.send(JSON.stringify({ type: 'full' }))
     return ws.close()
   }
 
-  
+
   const playerId = Math.random().toString(36).substr(2, 8)
   const color = players.length === 0 ? 'red' : 'blue'
   const player = { ws, id: playerId, color }
@@ -87,26 +87,24 @@ if (players.length >= 2) {
         nextTurn: players[currentTurn].id
       });
     }
-     if (data.type === "reset") {
+    if (data.type === "reset") {
       // 盤面・ターン・勝利判定をリセット
       board = Array.from({ length: 6 }, () => []);
       currentTurn = 0;
       // 必要なら勝利判定用変数もリセット
-players.push({ ws, id: playerId, color })
-  console.log(`Player connected: ${playerId} (${color})`)
+      
+      // プレイヤーに初期情報を送る
+      if (players.length === 2) {
+        players.forEach(p => {
+          p.ws.send(JSON.stringify({
+            type: 'init',
+            id: p.id,
+            color: p.color,
+            turn: players[currentTurn].id
+          }))
+        })
+      }
 
-  // プレイヤーに初期情報を送る
-  if (players.length === 2) {
-    players.forEach(p => {
-      p.ws.send(JSON.stringify({
-        type: 'init',
-        id: p.id,
-        color: p.color,
-        turn: players[currentTurn].id
-      }))
-    })
-  }
-     
     }
   })
 
@@ -153,7 +151,7 @@ function victry(col, row, color) {
   }
   return false;
 }
-      
+
 
 function result(obj) {
   const json = JSON.stringify(obj)

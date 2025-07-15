@@ -623,24 +623,24 @@
       }
 
       function restartGame() {
-        // ボードの状態を空にする
-        const stones = document.querySelectorAll('.stone'); // すべての石要素を取得
-        stones.forEach(stone => stone.remove());//stone消す（物理
+        // // ボードの状態を空にする
+        // const stones = document.querySelectorAll('.stone'); // すべての石要素を取得
+        // stones.forEach(stone => stone.remove());//stone消す（物理
 
-        for (let i = 0; i < cols; i++) {
-          board[i] = [];//stoneをけす（内部
-          colbtn[i].disabled = false; // ボタン有効化
-        }
+        // for (let i = 0; i < cols; i++) {
+        //   board[i] = [];//stoneをけす（内部
+        //   colbtn[i].disabled = false; // ボタン有効化
+        // }
 
-        // 状態変数を初期化
-        gameStarted = false;
-        myTurn = false;
+        // // 状態変数を初期化
+        // gameStarted = false;
+        // myTurn = false;
 
-        statusMessage.textContent = "相手を待っています...";
+        // statusMessage.textContent = "相手を待っています...";
 
-        whoseTurn.textContent = "";
+        // whoseTurn.textContent = "";
 
-        // 必要なら自分の色やIDも初期化（通常は不要）
+        // // 必要なら自分の色やIDも初期化（通常は不要）
 
         // サーバーにリセット通知
         ws.send(JSON.stringify({ type: "reset", id: myId }));
@@ -685,6 +685,13 @@
           myColor = msg.color;
           myTurn = msg.turn === myId;
           gameStarted = true;
+          const stones = document.querySelectorAll('.stone'); // すべての石要素を取得
+        stones.forEach(stone => stone.remove());//stone消す（物理
+
+        for (let i = 0; i < cols; i++) {
+          board[i] = [];//stoneをけす（内部
+          colbtn[i].disabled = false; // ボタン有効化
+        }
           // for (let i = 0; i < cols; i++) {
           //           colbtn[i].disabled = false; // ボタン有効化
           //         }
@@ -736,21 +743,20 @@
           }
         }
 
-        if (msg.type === 'reset') {//相手がリスタートボタンおした
-          gameStarted = true
-          statusMessage.textContent = "ゲームがリスタートされました"
-          restartGame();
-          if (players.length === 2) {
-            players.forEach(p => {
-              p.ws.send(JSON.stringify({
-                type: "reset",
-                id: p.id,
-                color: p.color,
-                turn: players[currentTurn].id
-              }));
-            });
-          }
-        }
+        // if (msg.type === 'reset') {//相手がリスタートボタンおした
+        //   statusMessage.textContent = "ゲームがリスタートされました"
+        //   restartGame();
+        //   if (players.length === 2) {
+        //     players.forEach(p => {
+        //       p.ws.send(JSON.stringify({
+        //         type: "reset",
+        //         id: p.id,
+        //         color: p.color,
+        //         turn: players[currentTurn].id
+        //       }));
+        //     });
+        //   }
+        // }
 
       }
 

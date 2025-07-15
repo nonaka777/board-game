@@ -92,11 +92,21 @@ if (players.length >= 2) {
       board = Array.from({ length: 6 }, () => []);
       currentTurn = 0;
       // 必要なら勝利判定用変数もリセット
+players.push({ ws, id: playerId, color })
+  console.log(`Player connected: ${playerId} (${color})`)
 
-      // 全員にリセット通知
-      players.forEach(p => {
-        p.ws.send(JSON.stringify({ type: "reset" }));
-      });
+  // プレイヤーに初期情報を送る
+  if (players.length === 2) {
+    players.forEach(p => {
+      p.ws.send(JSON.stringify({
+        type: 'init',
+        id: p.id,
+        color: p.color,
+        turn: players[currentTurn].id
+      }))
+    })
+  }
+     
     }
   })
 

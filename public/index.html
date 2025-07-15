@@ -383,7 +383,7 @@
                 <div></div>
               </div>
               <div class="col cell border ratio ratio-1x1">
-                
+
               </div>
             </div>
             <div class="row border-0 col-btn text-center mt-1">
@@ -662,7 +662,7 @@
         statusMessage.textContent = message;
         addLog(message);
       }
-      
+
 
       // 最初の描画
 
@@ -688,12 +688,12 @@
           myTurn = msg.turn === myId;
           gameStarted = true;
           const stones = document.querySelectorAll('.stone'); // すべての石要素を取得
-        stones.forEach(stone => stone.remove());//stone消す（物理
+          stones.forEach(stone => stone.remove());//stone消す（物理
 
-        for (let i = 0; i < cols; i++) {
-          board[i] = [];//stoneをけす（内部
-          colbtn[i].disabled = false; // ボタン有効化
-        }
+          for (let i = 0; i < cols; i++) {
+            board[i] = [];//stoneをけす（内部
+            colbtn[i].disabled = false; // ボタン有効化
+          }
           // for (let i = 0; i < cols; i++) {
           //           colbtn[i].disabled = false; // ボタン有効化
           //         }
@@ -743,30 +743,31 @@
           if (msg.message) {
             statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
           }
-          
-           if (msg.type === 'chat') {
-  const chatBody = document.querySelector('.chat .card-body')
-  if (!chatBody) return console.warn('チャット表示エリアが見つかりません');
 
-  const messageElem = document.createElement('div');
-  messageElem.textContent = `(${msg.id}) ${msg.text}`;
-  chatBody.appendChild(messageElem);  }
+
         }
 
-        
-        
+        if (msg.type === 'chat') {
+          const chatBody = document.querySelector('.chat .card-body')
+          if (!chatBody) return console.warn('チャット表示エリアが見つかりません');
+
+          const messageElem = document.createElement('div');
+          messageElem.textContent = `(${msg.id}) ${msg.text}`;
+          chatBody.appendChild(messageElem);
+        }
+
 
       }
       const form = document.querySelector('.form')
 
-        form.onsubmit = function (e) {
-          e.preventDefault()
-          const input = document.querySelector('.input')
-          const text = input.value
-          ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
-          input.value = ''
-          input.focus()
-        }
+      form.onsubmit = function (e) {
+        e.preventDefault()
+        const input = document.querySelector('.input')
+        const text = input.value
+        ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
+        input.value = ''
+        input.focus()
+      }
 
     }
     main();

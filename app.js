@@ -92,7 +92,7 @@ app.ws('/ws', (ws) => {//定員2
       board = Array.from({ length: 6 }, () => []);
       currentTurn = 0;
       // 必要なら勝利判定用変数もリセット
-      
+
       // プレイヤーに初期情報を送る
       if (players.length === 2) {
         players.forEach(p => {
@@ -105,6 +105,18 @@ app.ws('/ws', (ws) => {//定員2
         })
       }
 
+    }
+    if (msg.type === 'chat') {
+      const text = msg.text;
+
+      // すべてのプレイヤーに転送
+      players.forEach(p => {
+        p.ws.send(JSON.stringify({
+          type: 'chat',
+          id: playerId,
+          text: text
+        }));
+      });
     }
   })
 

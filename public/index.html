@@ -662,6 +662,7 @@
         statusMessage.textContent = message;
         addLog(message);
       }
+      
 
       // 最初の描画
 
@@ -742,22 +743,31 @@
           if (msg.message) {
             statusMessage.textContent = msg.message; // サーバーからのメッセージ表示
           }
+          
+          if (msg.type === 'chat') {
+            const { id, text } = msg
+            const messageList = document.querySelector('.messages')
+            const li = document.createElement('li')
+            if (id === myId) {
+              li.textContent = `(${id})自分:` + text
+            } else {
+              li.textContent = id + ': ' + text
+            }
+            messageList.appendChild(li)
+          }
         }
 
-        // if (msg.type === 'reset') {//相手がリスタートボタンおした
-        //   statusMessage.textContent = "ゲームがリスタートされました"
-        //   restartGame();
-        //   if (players.length === 2) {
-        //     players.forEach(p => {
-        //       p.ws.send(JSON.stringify({
-        //         type: "reset",
-        //         id: p.id,
-        //         color: p.color,
-        //         turn: players[currentTurn].id
-        //       }));
-        //     });
-        //   }
-        // }
+        const form = document.querySelector('.form')
+
+        form.onsubmit = function (e) {
+          e.preventDefault()
+          const input = document.querySelector('.input')
+          const text = input.value
+          ws.send(JSON.stringify({ id: myId, text, type: 'chat' }))
+          input.value = ''
+          input.focus()
+        }
+        
 
       }
 

@@ -18,7 +18,6 @@ app.ws('/ws', (ws) => {//定員2
     return ws.close()
   }
 
-
   const playerId = Math.random().toString(36).substr(2, 8)
   const color = players.length === 0 ? 'red' : 'blue'
   const player = { ws, id: playerId, color }
@@ -176,37 +175,3 @@ app.listen(port, () => {
   console.log(`http://localhost:${port}`)
 })
 //whose-tarn
-// const express = require('express')
-// const expressWs = require('express-ws')
-
-// const app = express()
-// expressWs(app)
-
-// const port = process.env.PORT || 3001
-// let connects = []
-
-// app.use(express.static('public'))
-
-// app.ws('/ws', (ws, req) => {
-//   connects.push(ws)
-
-//   ws.on('message', (message) => {
-//     console.log('Received:', message)
-
-//     connects.forEach((socket) => {
-//       if (socket.readyState === 1) {
-//         // Check if the connection is open
-//         socket.send(message)
-//       }
-//     })
-//   })
-
-//   ws.on('close', () => {
-//     connects = connects.filter((conn) => conn !== ws)
-//   })
-// })
-
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`)
-// })
-

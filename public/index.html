@@ -3,20 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
   <title>game</title>
   <link rel="stylesheet" href="./css/bootstrap.css">
   <link rel="icon" href="./img/conect4.png">
   <script src="./js/bootstrap.js"></script>
   <style>
-    /* いりそうなクラス（.から始まる）やID（#から始まる）をスタイルとして書いておく。色など属性はテキトーなので後で適宜直す。 */
     /* 盤面 */
     .board {
       border-collapse: collapse;
       border-width: 1px;
       margin-top: 10rem;
       padding: 3rem;
-      /*border-color: black;*/
       background: #0ab535;
     }
 
@@ -61,7 +58,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      /* height: 50px;*/
       padding: 1px;
     }
 
@@ -77,7 +73,6 @@
     }
 
     .board td {
-      /* background: #0ab535;*/
       color: black;
       border-collapse: collapse;
       border-width: 1px;
@@ -114,8 +109,6 @@
     #restart-btn {
       background-color: aqua;
       margin-left: auto;
-      /*display: flex;
-            justify-content: flex-end;*/
     }
 
     .stone {
@@ -186,7 +179,7 @@
   <!-- ゲーム名とかメニュー描く -->
   <header>
     <!-- navbar-light でヘッダーの文字色を指定 -->
-    <!-- 画面サイズを小さくすれば「三」のメニューが出る。小さい加減はnavbar-expand-lgのlg部分を変える -->
+    <!-- 画面サイズを小さくすれば「三」のメニューが出る。 -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <!-- 名前 hrefでリンク先指定。仮に「#」(ページトップ)に指定 -->
@@ -198,7 +191,7 @@
           aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- ナビバーの内容。テキトーに書くので変えるなり追加なり削除なりご自由に -->
+        <!-- ナビバーの内容。 -->
         <div class="collapse navbar-collapse" id="navbarmenu">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -238,13 +231,13 @@
                   </div>
                 </div>
             </li>
-            <!-- ドロップダウンを作る。必要な時に参照できるように書いておく。使わなきゃ消す。 -->
+            <!-- ドロップダウンを作る。-->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 設定
               </a>
-              <!-- ドロップダウンの中身。ボタンだけ作ってみる -->
+              <!-- ドロップダウンの中身。機能は空。今後実装したい。 -->
               <ul class="dropdown-menu border-0">
                 <li><a class="dropdown-item" href="#">名前変更</a></li>
                 <li><a class="dropdown-item" href="#">背景変更</a></li>
@@ -426,7 +419,7 @@
           </div>
         </div>
       </div>
-      <!-- チャットなど。間に合わなければ削除 -->
+      <!-- チャットなど。 -->
       <div class="col-lg-4">
         <div class="row">
           <div class="col">
@@ -434,7 +427,6 @@
               <div class="card m-5 text-center" style="flex-grow: 1;">
                 <div class="card-head" style="background-color: rgba(43, 226, 226, 0.669);">行動履歴</div>
                 <ul class="log-list overflow-auto"></ul>
-                <!--<div class="card-body">ここに文字を表示</div>-->
                 <div id="status-message" class="card-body" style="flex-grow: 1;">対戦相手を待っています...</div>
               </div>
             </div>
@@ -444,7 +436,6 @@
             <div class="card m-5 text-center chat" style="flex-grow: 1;">
               <div class="card-head" style="background-color: aquamarine;">チャット</div>
               <ul class="messages overflow-auto"></ul>
-              <!--<div class="card-body" style="flex-grow: 1;">ここに文字を表示</div>-->
               <div class="card-footer" style="height: 4rem; align-items: center;">
                 <form class="form">
                   <input class="input" autocomplete="off" />

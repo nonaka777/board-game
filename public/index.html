@@ -275,7 +275,7 @@
                 <button type="button" id="rotate-btn">回転</button>
               </div>
             </div>
-            <div id="whose-tarn" class="text-center mt-2"></div>
+            <div><span id="whose-tarn"></span>のターン</div>
           </div>
           <div class="container-fluid">
             <div class="row">
@@ -526,7 +526,7 @@
           return;
         }
         if (myTurn) {
-          whoseTarn.textContent = "myId";
+          whoseTarn.textContent = "あなた";
         } else {
           whoseTarn.textContent = "相手";
         }
@@ -536,7 +536,7 @@
       function dropStone(col) {
         if (board[col].length >= rows) {
           alert("この列は選択できません");
-          setStatus("この列はせんたくできません");
+          setStatus("この列は選択できません");
           return;
         }
         if (!myTurn) {//画面表示

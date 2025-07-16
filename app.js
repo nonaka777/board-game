@@ -155,8 +155,8 @@ function victry(col, row, color) {
   if (
     countSameColor(0, 1) >= 4 ||    // 縦
     countSameColor(1, 0) >= 4 ||    // 横
-    countSameColor(1, 1) >= 4 ||    // 斜め（右下）
-    countSameColor(-1, 1) >= 4      // 斜め（左下）
+    countSameColor(1, 1) >= 4 ||    // 斜め（スラッシュ）
+    countSameColor(-1, 1) >= 4      // 斜め（バックスラッシュ）
   ) {
     return true;
   }

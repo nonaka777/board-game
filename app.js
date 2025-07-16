@@ -81,10 +81,12 @@ app.ws('/ws', (ws) => {//定員2
       }
       board = newBoard;
       currentTurn = (currentTurn + 1) % 2;
+      const win = victry(col, row, players[playerIndex].color)
       result({
         type: "rotate",
         board,
-        nextTurn: players[currentTurn].id
+        nextTurn: players[currentTurn].id,
+        winner: win ? players[playerIndex].id : null, // ←追加
       });
     }
     if (data.type === "reset") {

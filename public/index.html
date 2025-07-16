@@ -767,7 +767,7 @@
         }
 
         if (msg.type === 'chat') {
-          const chatBody = document.querySelector('.chat .card-body')
+          const chatBody = document.querySelector('messages')
           if (!chatBody) return console.warn('チャット表示エリアが見つかりません');
 
           const messageElem = document.createElement('div');

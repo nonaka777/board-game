@@ -119,6 +119,13 @@ app.ws('/ws', (ws) => {//定員2
     }
   })
 
+  function broadcast(data) {
+  players.forEach(p => {
+    if (p.ws.readyState === WebSocket.OPEN) {
+      p.ws.send(JSON.stringify(data));
+    }
+  });
+}
   ws.on('close', () => {
     console.log(`Player ${playerId} disconnected`)
     players = players.filter(p => p.ws !== ws)
